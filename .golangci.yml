@@ -1,0 +1,49 @@
+linters:
+  enable:
+    - gosimple
+    - gofmt
+    - govet
+    - staticcheck
+    - unused
+    - errcheck
+    - misspell
+    - gocyclo
+    - goconst
+    - bodyclose
+    - dupl
+    - exhaustive
+    - funlen
+    - gocritic
+    - stylecheck
+    - typecheck
+    - unconvert
+    - unparam
+    - whitespace
+    - lll
+linters-settings:
+  funlen:
+    lines: 90
+    statements: 30
+  golint:
+    min-confidence: 0.81
+  misspell:
+    locale: US, ES
+severity:
+  error:
+    - errcheck
+    - govet
+    - staticcheck
+  warning:
+    - gocyclo
+    - gosimple
+    - ineffassign
+run:
+  timeout: "3m"
+  tests: false
+
+issues:
+  exclude-files:
+    - wire_gen.go
+
+service:
+  golangci-lint-version: v1.59.1

@@ -1,0 +1,49 @@
+version: 1
+threshold:
+  compliance: 100
+  coverage: 20
+dependenciesRules:
+  - package: '**.internal/core/usecase.**'
+    shouldOnlyDependsOn:
+      internal:
+        - '**.internal/core/domain.**'
+        - '**.internal/core/port.**'
+        - '**.pkg/customerror.**'
+        - '**.pkg/helper.**'
+  - package: '**.internal/core/domain.**'
+    shouldOnlyDependsOn:
+      internal:
+        - '**.internal/core/domain.**'
+  - package: '**.pkg.**'
+    shouldNotDependsOn:
+      internal:
+        - '**.internal/core.**'
+  - package: '**.internal/dependency/dependency.*'
+    shouldNotDependsOn:
+      internal:
+        - '**.internal/core.**'
+contentsRules:
+  - package: '**.internal/core/domain.**'
+    shouldOnlyContainStructs: true
+  - package: '**.internal/core/port.**'
+    shouldOnlyContainInterfaces: true
+  - package: '**.internal/dependency.**'
+    shouldNotContainInterfaces: true
+
+namingRules:
+  - package: "**.internal/adapter/driven/mongo.**"
+    interfaceImplementationNamingRule:
+      structsThatImplement: "*Repository"
+      shouldHaveSimpleNameEndingWith: "Repository"
+
+functionsRules:
+  - package: "**.internal/core/usecase.**"
+    maxParameters: 3
+    maxReturnValues: 2
+    maxPublicFunctionPerFile: 5
+    maxLines: 50
+  - package: "**.pkg.**"
+    maxParameters: 5
+    maxReturnValues: 2
+    maxPublicFunctionPerFile: 10
+    maxLines: 50

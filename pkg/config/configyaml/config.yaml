@@ -1,0 +1,34 @@
+appName: url-shortener-yaml
+logLevel: debug
+server:
+  port: 8080
+  timeoutMinutes: 3
+  routes:
+    health:
+      path: health
+      method: GET
+    create:
+      path: urls
+      method: POST
+    details:
+      path: urls/:shortID
+      method: GET
+    get:
+      path: :shortID
+      method: GET
+    update:
+      path: :shortID
+      method: PUT
+    toggle:
+      path: :shortID
+      method: PATCH
+database:
+  dynamoDB:
+    tableName: urls
+    endpoint: http://localhost:8000
+    region: localhost
+  redis:
+    address: localhost:6379
+    password: password
+    db: 0
+    expiration: 10
