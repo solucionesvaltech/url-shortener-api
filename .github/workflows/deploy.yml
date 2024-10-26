@@ -59,4 +59,4 @@ jobs:
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          kubectl set image deployment/url-shortener your-container=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          kubectl set image deployment/url-shortener url-shortener=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
