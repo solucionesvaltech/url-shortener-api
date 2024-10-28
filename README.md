@@ -15,6 +15,8 @@ The URL Shortener API enables users to shorten long URLs, generating a unique sh
 The architecture and infrastructure of this solution ensure a highly available, scalable API with simplified management and monitoring.
 Each component was selected to support high traffic volumes, keeping the API efficient and stable and meeting the scalability, observability, and performance requirements of this challenge.
 
+<img src="assets/shortener.diagram.png" alt="logo" width="400"/>
+
 #### Pattern
 
 The [Hexagonal Architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)) in this project separates business logic from implementation details, creating a modular and maintainable system.
