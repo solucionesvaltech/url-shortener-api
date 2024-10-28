@@ -9,7 +9,7 @@ arch-go ||
 )
 
 echo '🧪Starting testing...'
-go test ./internal/... ||
+go test -tags='!integration' ./... ||
 (
     echo '🧪❌ tests failed. View the errors above to see why.'
     exit 1;
