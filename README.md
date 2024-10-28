@@ -369,6 +369,7 @@ You can take a look to the metrics and data here:
 - [Prometheus dashboard](http://prometheus-shortener.solucionesvaltech.com:9090/targets?search=)
 - [Grafana dashboard](http://grafana-shortener.solucionesvaltech.com:3000/d/be20y741djqwwe/url-shortener?from=now-5m&to=now&timezone=browser&var-useCase=GETTING_URL)
 
+- Grafana credentials: admin / admin123
 
 ### Production environment
 
