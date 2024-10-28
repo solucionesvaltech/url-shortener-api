@@ -12,9 +12,12 @@ The URL Shortener API enables users to shorten long URLs, generating a unique sh
 
 ### Solution
 
+The architecture and infrastructure of this solution ensure a highly available, scalable API with simplified management and monitoring.
+Each component was selected to support high traffic volumes, keeping the API efficient and stable and meeting the scalability, observability, and performance requirements of this challenge.
+
 #### Pattern
 
-The Hexagonal Architecture in this project separates business logic from implementation details, creating a modular and maintainable system.
+The [Hexagonal Architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)) in this project separates business logic from implementation details, creating a modular and maintainable system.
 Here’s a concise overview of the directory structure and its purpose:
 </br>
 
@@ -37,7 +40,7 @@ Here’s a concise overview of the directory structure and its purpose:
 
 - pkg: Shared utilities like configuration, logger, web server, metrics, and error handling.
 
-Advantages
+##### Advantages
 This approach decouples business logic from technical details, ensuring extensibility, maintainability, and easy testing.
 Hexagonal architecture supports adaptability by allowing changes in technology within adapters without affecting the core application.
 
@@ -67,6 +70,62 @@ Hexagonal architecture supports adaptability by allowing changes in technology w
     ├── metric
     └── server
 ```
+
+#### Why [Go](https://go.dev/)?
+
+Go (Golang) was selected for developing the API due to its efficiency, simplicity, and performance.
+It is a strong choice for backend services that require concurrency, low resource usage, and high scalability.
+
+#### Storage and caching
+
+- [DynamoDB](https://aws.amazon.com/es/dynamodb/)
+
+  DynamoDB is used for persisting shortened URLs in a scalable, [serverless](https://es.wikipedia.org/wiki/Serverless_computing) environment.
+  DynamoDB scales automatically and integrates well with other [AWS](https://aws.amazon.com/es/) services.
+
+  - Comparison of [DynamoDB](https://aws.amazon.com/es/dynamodb/) and [PostgreSQL](https://www.postgresql.org/about/):
+
+    - DynamoDB is ideal for [serverless](https://es.wikipedia.org/wiki/Serverless_computing), scalable data storage, particularly useful for high-speed [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations on large data volumes, and integrates seamlessly with [AWS](https://aws.amazon.com/es/).
+    - PostgreSQL, while providing [ACID](https://en.wikipedia.org/wiki/ACID) transactions and greater flexibility for complex queries, is less scalable without additional infrastructure.
+    DynamoDB’s automatic scaling and [serverless](https://es.wikipedia.org/wiki/Serverless_computing) model align better with high-demand applications requiring minimal administration.
+    - Cost and Scalability: DynamoDB proves more economical for [serverless](https://es.wikipedia.org/wiki/Serverless_computing) environments with straightforward access patterns.
+    PostgreSQL would require added management and is less suited for a [serverless](https://es.wikipedia.org/wiki/Serverless_computing) architecture. 
+  - Justification: Since the API primarily performs simple operations (saving and retrieving URLs) and benefits from [serverless](https://es.wikipedia.org/wiki/Serverless_computing) scalability, DynamoDB is the optimal choice.
+  PostgreSQL would be more appropriate if relational complexity or [ACID](https://en.wikipedia.org/wiki/ACID) transactions were required, which is unnecessary in this context.
+
+
+- [Redis](https://redis.io/) 
+
+  Redis caches URLs temporarily to improve access speed.
+  Redis enables rapid response times and reduces load on DynamoDB.
+
+#### Observability and Monitoring
+
+- [Prometheus](https://prometheus.io/)
+
+  Prometheus collects API metrics, allowing monitoring of health, performance, and resource usage.
+
+- [Grafana](https://grafana.com/)
+
+  Grafana visualizes metrics, providing custom dashboards for real-time monitoring and trend analysis.
+
+#### Infrastructure
+
+ - [AWS EKS](https://docs.aws.amazon.com/es_es/eks/latest/userguide/what-is-eks.html) Deployment vs. [AWS Lambda](https://aws.amazon.com/es/pm/lambda/):
+
+   The API is deployed on AWS EKS (Elastic Kubernetes Service), enabling efficient container management and automatic scaling.
+   EKS was chosen because:
+
+   - Scalability and Control: Kubernetes offers fine-grained autoscaling configurations and more flexibility than AWS Lambda for managing resources and advanced settings.
+   - Container Compatibility: EKS facilitates container deployments and managing multiple services within a single cluster.
+   - Cold Start in Lambda: AWS Lambda may experience a delay known as cold start when activated after being idle, which could negatively impact response times in an API that needs to handle traffic spikes reliably.
+   - Cost Efficiency for Scaling: EKS is more cost-effective when steady processing power is required, with scalable autoscaling control.
+ - Automatic Scaling
+
+   The API CPU and memory-based autoscaling ensures resources scale automatically during traffic surges, efficiently handling high demand.
+ - [CI/CD](https://es.wikipedia.org/wiki/CI/CD) with [GitHub Actions](https://github.com/features/actions)
+
+   [GitHub Actions](https://github.com/features/actions) enables continuous integration and deployment ([CI/CD](https://es.wikipedia.org/wiki/CI/CD)), automating the building, testing, and deployment processes for the API, thus ensuring code integrity and reliability.
 
 ### Endpoints
 
@@ -264,9 +323,9 @@ To ensure that you will be able to run your tests follow this steps:
   go install github.com/onsi/ginkgo/v2/ginkgo@latest
   ```
 - Plugin installation
-  [install the plugin](https://plugins.jetbrains.com/plugin/17554-ginkgo)
+  [install the plugin](https://plugins.jetbrains.com/plugin/17554-ginkgo).
 - Setup
-  In the IDE setup configuration, add Ginko for all tests
+  In the IDE setup configuration, add Ginko for all tests. <br/>
   ![img.png](/assets/ginko-config.png)
 
 Run all tests:
@@ -274,9 +333,61 @@ Run all tests:
 ginkgo -v ./...
 ```
 Or if you preffer the simple approach
+
+This will run unit tests only:
+```bash
+go test -tags='!integration' ./...
+```
+This will include integration tests that require the services up and running:
 ```bash
 go test ./...
 ```
+
+### Load tests with [k6](https://grafana.com/docs/k6/latest/)
+
+This project use k6 for load tests. 
+
+```bash
+brew install k6
+```
+
+There is two scripts for test the API in the [assets/tests](assets/tests) directory.
+You can run the script by running:
+
+```bash
+k6 run get-test-simple.js
+```
+
+### Monitoring
+
+This application expose metrics with [Prometheus](https://prometheus.io/) and use [Grafana](https://grafana.com/) to visualize them.
+
+You can take a look to the metrics and data here:
+
+- [Prometheus dashboard](http://prometheus-shortener.solucionesvaltech.com:9090/targets?search=)
+- [Grafana dashboard](http://grafana-shortener.solucionesvaltech.com:3000/d/be20y741djqwwe/url-shortener?from=now-5m&to=now&timezone=browser&var-useCase=GETTING_URL)
+
+
+### Production environment
+
+You can use the Shortener API with this [URL](https://shortener.solucionesvaltech.com/).
+The _solucionesvaltech.com_ domain it is just a personal domain.
+
+#### Examples
+
+- Creation
+  ```bash
+  curl --location 'https://shortener.solucionesvaltech.com/urls' \
+  --header 'Content-Type: application/json' \
+  --data '{
+      "url": "https://es.wikipedia.org/wiki/Wikipedia:Portada"
+  }'
+  ```
+- Resolve URL
+  ```bash
+  curl --location --request GET 'https://shortener.solucionesvaltech.com/JOr5DFWNR' \
+  --header 'Content-Type: application/json' \
+  ```
 
 Made with 💛 by Víctor Valenzuela
 
