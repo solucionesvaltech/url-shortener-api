@@ -11,8 +11,8 @@ import (
 	"url-shortener/pkg/log"
 )
 
-// ensureURLTableExists checks if the table exists; If not, create it
-func (r *Repository) ensureURLTableExists() error {
+// Init checks if the table exists; If not, create it
+func (r *Repository) Init() error {
 	_, err := r.db.DescribeTable(&dynamodb.DescribeTableInput{
 		TableName: aws.String(r.tableName),
 	})

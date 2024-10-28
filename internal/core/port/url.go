@@ -21,6 +21,7 @@ type URLRepository interface {
 	Save(URL domain.URL) error
 	Find(shortID string) (*domain.URL, error)
 	Update(URL domain.URL) error
+	Init() error
 }
 
 // URLShortenerUseCase is an interface for interacting with Original related business logic.

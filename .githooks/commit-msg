@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+echo "🛂 Checking commit message..."
+# Create a regex for a conventional commit.
+convetional_commit_regex="^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([aA-zZ \-]+\))?!?: .+$"
+# Get the commit message (the parameter we're given is just the path to the
+# temporary file which holds the message).
+commit_message=$(cat "$1")
+# Check the message, if we match, all good baby.
+if [[ "$commit_message" =~ $convetional_commit_regex ]]; then
+   echo "✅ Commit message meets conventional commit standards"
+   exit 0
+fi
+echo "The commit message does not meet the conventional Commit standard"
+echo "An example of a valid message is: "
+echo "  feat(login): add the 'remember me' button"
+echo '❌👷🔨❌ Better review conventional commit format.... Because your commit format failed ❌👷🔨❌
+           check this link https://www.conventionalcommits.org/en/v1.0.0/
+           or this https://github.com/conventional-changelog/commitlint.'
+exit 1
+

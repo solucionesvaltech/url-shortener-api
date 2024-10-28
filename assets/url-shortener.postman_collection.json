@@ -1,0 +1,186 @@
+{
+	"info": {
+		"_postman_id": "8f3e5ea1-16fe-42cd-a363-9dd6dde34fa6",
+		"name": "url-shortener",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4427681"
+	},
+	"item": [
+		{
+			"name": "metrics",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}metrics",
+					"host": [
+						"{{url}}metrics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "urls",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\": \"https://automateinfra.com/2021/10/19/the-ultimate-guide-on-aws-eks-for-beginners-easiest-way/\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}urls",
+					"host": [
+						"{{url}}urls"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "shortID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}H0KFB4WNR",
+					"host": [
+						"{{url}}H0KFB4WNR"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "details",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}urls/H0KFB4WNa",
+					"host": [
+						"{{url}}urls"
+					],
+					"path": [
+						"H0KFB4WNa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\": \"https://automateinfra.com/2021/10/19/the-ultimate-guide-on-aws-eks-for-beginners-easiest-way/\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}H0KFB4WNR",
+					"host": [
+						"{{url}}H0KFB4WNR"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "toggle",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"enabled\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}H0KFB4WNR",
+					"host": [
+						"{{url}}H0KFB4WNR"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "health",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}health",
+					"host": [
+						"{{url}}health"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

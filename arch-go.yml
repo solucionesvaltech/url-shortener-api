@@ -10,6 +10,8 @@ dependenciesRules:
         - '**.internal/core/port.**'
         - '**.pkg/customerror.**'
         - '**.pkg/helper.**'
+        - '**.pkg/config.**'
+        - '**.pkg/log.**'
   - package: '**.internal/core/domain.**'
     shouldOnlyDependsOn:
       internal:
@@ -18,7 +20,7 @@ dependenciesRules:
     shouldNotDependsOn:
       internal:
         - '**.internal/core.**'
-  - package: '**.internal/dependency/dependency.*'
+  - package: '**.internal/dependency/dependency.**'
     shouldNotDependsOn:
       internal:
         - '**.internal/core.**'
@@ -31,7 +33,7 @@ contentsRules:
     shouldNotContainInterfaces: true
 
 namingRules:
-  - package: "**.internal/adapter/driven/mongo.**"
+  - package: "**.internal/adapter/driven.**"
     interfaceImplementationNamingRule:
       structsThatImplement: "*Repository"
       shouldHaveSimpleNameEndingWith: "Repository"
@@ -40,7 +42,7 @@ functionsRules:
   - package: "**.internal/core/usecase.**"
     maxParameters: 3
     maxReturnValues: 2
-    maxPublicFunctionPerFile: 5
+    maxPublicFunctionPerFile: 4
     maxLines: 50
   - package: "**.pkg.**"
     maxParameters: 5

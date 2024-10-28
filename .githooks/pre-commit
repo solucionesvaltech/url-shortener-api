@@ -1,0 +1,48 @@
+#!/bin/bash
+set -e
+echo '🏗️👷 linting, formatting, building and testing your project before committing'
+echo '...'
+
+echo '🤖 Linting the project...'
+linter=$(golangci-lint --version)
+linter_version=$(echo "$linter" | awk '{ split($4, a, "."); printf("%s.%s", a[1], a[2])}')
+if [[ $(echo "$linter_version < 1.61.0" | bc -l) -eq 1 ]] ; then
+  echo "🔨❌ Invalid linter version. Your linter version is: $linter"
+  exit;
+fi
+
+golangci-lint run -v --fix  --timeout 4m0s ||
+(
+    echo '🔨❌ golang ci-lint failed. View the errors above to see why.'
+    exit 1;
+)
+
+echo '📀 Looking for dependencies...'
+go mod tidy && git add go.mod && git add go.sum ||
+(
+    echo '🔨❌ mod tidy failed. View the errors above to see why.'
+    exit 1;
+)
+
+## this will retrieve all of the .go files that have been
+## changed since the last commit
+STAGED_GO_FILES=$(git diff --diff-filter=d --cached --name-only -- '*.go')
+## we can check to see if this is empty
+if [[ $STAGED_GO_FILES == "" ]]; then
+    echo "No Go files to format"
+else
+    echo '👡Starting formatting...'
+    for file in $STAGED_GO_FILES; do
+        go fmt $file
+        git add $file
+    done
+fi
+
+echo '🔨Starting building...'
+go build -o temp-build cmd/main.go  ||
+(
+    echo '🔨❌ Build failed. View the errors above to see why.'
+    exit 1;
+)
+rm temp-build
+echo "✅ Build hook success"

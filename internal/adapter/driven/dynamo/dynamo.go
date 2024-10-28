@@ -9,7 +9,7 @@ import (
 
 //go:generate mockgen -source=dynamo.go -destination=../../../../mocks/dynamo.go -package=mock
 
-// DynamoDBClient es la interfaz para interactuar con DynamoDB
+// ClientInterface is the interface to interact with DynamoDB
 type ClientInterface interface {
 	DescribeTable(input *dynamodb.DescribeTableInput) (*dynamodb.DescribeTableOutput, error)
 	CreateTable(input *dynamodb.CreateTableInput) (*dynamodb.CreateTableOutput, error)
@@ -18,12 +18,12 @@ type ClientInterface interface {
 	UpdateItem(input *dynamodb.UpdateItemInput) (*dynamodb.UpdateItemOutput, error)
 }
 
-// Client es una implementación de DynamoDBClient
+// Client is an implementation of ClientInterface
 type Client struct {
 	*dynamodb.DynamoDB
 }
 
-// NewDynamoDBClient configura y devuelve una conexión a DynamoDB
+// NewDynamoDBClient configure and return a connection to DynamoDB
 func NewDynamoDBClient(conf *config.Config) (*Client, error) {
 	var awsConfig *aws.Config
 

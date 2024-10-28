@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"url-shortener/internal/adapter/driven/dynamo"
 	"url-shortener/internal/core/port"
 
 	"url-shortener/pkg/config"
@@ -17,8 +16,8 @@ type Dependency struct {
 	Conf         *config.Config
 	server       *server.Server
 	metricClient metric.Metric
-	dynamoClient dynamo.ClientInterface
 	cache        port.URLCache
+	repo         port.URLRepository
 }
 
 func NewDependency(
@@ -26,12 +25,14 @@ func NewDependency(
 	server *server.Server,
 	metricClient metric.Metric,
 	cache port.URLCache,
+	repo port.URLRepository,
 ) *Dependency {
 	return &Dependency{
 		Conf:         cfg,
 		server:       server,
 		metricClient: metricClient,
 		cache:        cache,
+		repo:         repo,
 	}
 }
 
@@ -44,13 +45,15 @@ func (d *Dependency) Start(ctx context.Context) (err error) {
 		}
 	}()
 
-	err = d.metricClient.Start()
-	if err != nil {
+	if err = d.metricClient.Start(); err != nil {
 		return
 	}
 
-	err = d.cache.Ping(ctx)
-	if err != nil {
+	if err = d.cache.Ping(ctx); err != nil {
+		return
+	}
+
+	if err = d.repo.Init(); err != nil {
 		return
 	}
 

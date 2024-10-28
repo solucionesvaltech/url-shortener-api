@@ -21,7 +21,6 @@ func NewHandlers(
 ) []*RequestHandler {
 	handlers := make([]*RequestHandler, 0)
 
-	// Lista de definiciones de handlers
 	handlerDefinitions := []struct {
 		Method, Path string
 		Handler      Handler

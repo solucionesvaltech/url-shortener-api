@@ -149,6 +149,20 @@ func (mr *MockURLRepositoryMockRecorder) Find(shortID any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockURLRepository)(nil).Find), shortID)
 }
 
+// Init mocks base method.
+func (m *MockURLRepository) Init() error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Init")
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Init indicates an expected call of Init.
+func (mr *MockURLRepositoryMockRecorder) Init() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Init", reflect.TypeOf((*MockURLRepository)(nil).Init))
+}
+
 // Save mocks base method.
 func (m *MockURLRepository) Save(URL domain.URL) error {
 	m.ctrl.T.Helper()

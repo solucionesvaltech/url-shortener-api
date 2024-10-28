@@ -53,6 +53,7 @@ type DatabasesConfig struct {
 
 type Config struct {
 	AppName         string          `json:"appName" validate:"required"`
+	Domain          string          `json:"domain" validate:"required"`
 	Namespace       string          `json:"namespace" validate:"required"`
 	Cluster         string          `json:"cluster" validate:"required"`
 	Stage           string          `json:"stage" validate:"required"`

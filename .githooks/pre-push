@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+echo '🤖 Archunit testing...'
+arch-go ||
+(
+    echo '🔨❌ arch-go failed. View the errors above to see why.'
+    exit 1;
+)
+
+echo '🧪Starting testing...'
+go test ./internal/... ||
+(
+    echo '🧪❌ tests failed. View the errors above to see why.'
+    exit 1;
+)
+
+echo "✅ Test hook success"

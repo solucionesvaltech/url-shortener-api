@@ -19,16 +19,10 @@ type Repository struct {
 
 // NewURLRepository initialize the repository with the DynamoDB client and the table name
 func NewURLRepository(db dynamo.ClientInterface, conf *config.Config) (*Repository, error) {
-	repository := &Repository{
+	return &Repository{
 		db:        db,
 		tableName: conf.DatabasesConfig.DynamoDB.TableName,
-	}
-
-	if err := repository.ensureURLTableExists(); err != nil {
-		return nil, err
-	}
-
-	return repository, nil
+	}, nil
 }
 
 // Save saves a new record in the `urls` table
@@ -68,7 +62,7 @@ func (r *Repository) Find(shortID string) (*domain.URL, error) {
 		return nil, fmt.Errorf("error when searching for URL: %w", err)
 	}
 	if result.Item == nil {
-		return nil, fmt.Errorf("URL with shortID %s not found", shortID)
+		return nil, fmt.Errorf("URL with shortID: %s not found", shortID)
 	}
 
 	var url domain.URL

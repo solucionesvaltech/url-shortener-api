@@ -46,7 +46,7 @@ func Init() (*Dependency, error) {
 		return nil, err
 	}
 	redisClient := redis.NewRedisClient(config)
-	urlUseCase := usecase.NewURLUseCase(repository, redisClient)
+	urlUseCase := usecase.NewURLUseCase(repository, redisClient, config)
 	createHandler := create.NewHandler(urlUseCase)
 	getHandler := get.NewHandler(urlUseCase)
 	updateHandler := update.NewHandler(urlUseCase)
@@ -59,7 +59,7 @@ func Init() (*Dependency, error) {
 	if err != nil {
 		return nil, err
 	}
-	dependency := NewDependency(config, serverServer, prometheusClient, redisClient)
+	dependency := NewDependency(config, serverServer, prometheusClient, redisClient, repository)
 	return dependency, nil
 }
 

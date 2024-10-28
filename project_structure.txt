@@ -1,0 +1,55 @@
+.
+├── Dockerfile
+├── README.md
+├── arch-go.yml
+├── assets
+│   ├── docker
+│   │   ├── docker-compose.yml
+│   │   ├── grafana
+│   │   └── prometheus.yml
+│   ├── ginko-config.png
+│   ├── logo.png
+│   └── url-shortener.postman_collection.json
+├── cmd
+│   └── main.go
+├── go.mod
+├── go.sum
+├── internal
+│   ├── adapter
+│   │   ├── driven
+│   │   └── driver
+│   ├── core
+│   │   ├── domain
+│   │   ├── port
+│   │   └── usecase
+│   └── dependency
+│       ├── dependency.go
+│       ├── wire.go
+│       └── wire_gen.go
+├── mocks
+│   ├── dynamo.go
+│   ├── metricclient.go
+│   └── url.go
+├── pkg
+│   ├── config
+│   │   ├── config.go
+│   │   ├── configyaml
+│   │   └── loader.go
+│   ├── customerror
+│   │   ├── customerror.go
+│   │   ├── errors.go
+│   │   └── handler.go
+│   ├── helper
+│   │   ├── context.go
+│   │   ├── shortid.go
+│   │   └── url.go
+│   ├── log
+│   │   └── log.go
+│   ├── metric
+│   │   ├── metric.go
+│   │   └── prometheus
+│   └── server
+│       └── server.go
+└── project_structure.txt
+
+24 directories, 29 files
