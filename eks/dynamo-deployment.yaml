@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dynamodb
+  namespace: default
+  labels:
+    app: dynamodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dynamodb
+  template:
+    metadata:
+      labels:
+        app: dynamodb
+    spec:
+      containers:
+        - name: dynamodb
+          image: amazon/dynamodb-local
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "750m"
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+          args: ["-jar", "DynamoDBLocal.jar", "-sharedDb"]
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dynamodb
+  namespace: default
+  labels:
+    app: dynamodb
+spec:
+  ports:
+    - port: 8000
+      targetPort: 8000
+  selector:
+    app: dynamodb
+  type: LoadBalancer

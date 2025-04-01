@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: grafana-cert
+spec:
+  secretName: grafana-tls
+  dnsNames:
+  - grafana-shortener.solucionesvaltech.com
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
